@@ -5,7 +5,7 @@ services:
     ports:
       - "5000:5000"  # Expone el puerto 5000 del contenedor
     volumes:
-      - ./app:/app  # Mapea el directorio actual al contenedor.
+      - ./app:/app  # Mapea el directorio actual al contenedor
     working_dir: /app
     command: bash -c "pip install --upgrade pip && pip install flask flask-cors pytest && python app.py"
 
