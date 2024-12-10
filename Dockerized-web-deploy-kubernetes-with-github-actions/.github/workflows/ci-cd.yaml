@@ -1,0 +1,57 @@
+name: cicd
+
+on:
+  push:
+    paths:
+      - 'Dockerized-web-deploy-kubernetes-with-github-actions/**'
+  pull_request:
+    paths:
+      - 'Dockerized-web-deploy-kubernetes-with-github-actions/**'
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:19.03.12  
+        options: --privileged
+    steps:
+    # Step 1: Checkout the code from the repository
+      - name: Checkout Directory
+        uses: actions/checkout@v3
+    # Step 2: Configure sparse-checkout to fetch only the folder
+      - name: Configure sparse-checkout
+        run: |
+          git sparse-checkout init --cone 
+          git sparse-checkout set Dockerized-web-deploy-kubernetes-with-github-actions
+    # Step 3: Setup the enviroment with docker-compose
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      # Paso 3: Ejecutar Docker Compose
+      - name: Run Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml up --build -d
+
+      # Paso 4: Verificar que los contenedores estén en ejecución
+      - name: Verify containers are running
+        run: |
+          docker ps
+      # (Opcional) Paso 5: Ejecutar pruebas
+      - name: Run tests
+        run: |
+          docker-compose exec -T app pytest  # Asumiendo que tienes una app con pruebas dentro del contenedor
+          
+      # (Opcional) Paso 6: Detener los contenedores después de las pruebas
+      - name: Shutdown containers
+        run: |
+          docker-compose down
+

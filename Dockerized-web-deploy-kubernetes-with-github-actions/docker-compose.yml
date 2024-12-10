@@ -1,0 +1,29 @@
+services:
+  app:
+    image: python:3.11-slim
+    container_name: app
+    ports:
+      - "5000:5000"  # Expone el puerto 5000 del contenedor
+    volumes:
+      - ./app:/app  # Mapea el directorio actual al contenedor
+    working_dir: /app
+    command: bash -c "pip install --upgrade pip && pip install flask flask-cors && python app.py"
+
+    networks:
+      - app-network
+
+  web:
+    image: nginx:alpine
+    container_name: web
+    ports:
+      - "80:80"  # Expone el puerto 80 del contenedor
+    volumes:
+      - ./app/nginx.conf:/etc/nginx/nginx.conf  # Asegúrate de que tu configuración de nginx esté bien
+    depends_on:
+      - app  # Asegura que el contenedor `app` esté levantado primero
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
