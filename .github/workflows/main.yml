@@ -43,7 +43,7 @@ jobs:
       # Paso 3: Ejecutar Docker Compose
       - name: Run Docker Compose
         run: |
-          cd Dockerized-web-deploy-kubernetes-with-github-actions && ls && sudo apt-get install docker-compose -y && docker-compose -f docker-compose.yml up --build -d
+          cd Dockerized-web-deploy-kubernetes-with-github-actions && sudo pip install pytest && sudo apt-get install docker-compose -y && docker-compose -f docker-compose.yml up --build -d
 
       # Paso 4: Verificar que los contenedores estén en ejecución
       - name: Verify containers are running
