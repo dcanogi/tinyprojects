@@ -60,8 +60,8 @@ jobs:
       - name: Run unittest tests
         run: |
           cd Dockerized-web-deploy-kubernetes-with-github-actions
-          docker-compose exec -T pip install flask flask-cors
-          docker-compose exec -T python -m unittest test_app.py
+          docker-compose exec -T app pip install flask flask-cors
+          docker-compose exec -T app python -m unittest test_app.py
 
       # Step 8: Shutdown containers after tests
       - name: Shutdown containers
