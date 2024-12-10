@@ -60,6 +60,7 @@ jobs:
       - name: Run tests
         run: |
           cd Dockerized-web-deploy-kubernetes-with-github-actions
+          docker-compose exec -T app apt-get update && apt-get install -y ca-certificates
           docker-compose exec -T app pip install flask flask-cors pytest
           docker-compose exec -T app pytest --version
           docker-compose exec -T app pytest
