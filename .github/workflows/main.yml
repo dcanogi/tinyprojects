@@ -57,10 +57,11 @@ jobs:
           docker ps
 
       # Step 7: Run tests inside container
-      - name: Run tests
+      - name: Run unittest tests
         run: |
           cd Dockerized-web-deploy-kubernetes-with-github-actions
-          docker-compose exec -T app pytest --version 
+          docker-compose exec app /bin/sh -c "pip install flask flask-cors"
+          docker-compose exec app /bin/sh -c "python -m unittest test_app.py"
 
       # Step 8: Shutdown containers after tests
       - name: Shutdown containers
