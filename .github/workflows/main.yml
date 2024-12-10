@@ -38,7 +38,7 @@ jobs:
 
       - name: Listr current dir
         run: |
-          ls
+          cd Dockerized-web-deploy-kubernetes-with-github-actions && ls
 
       # Paso 3: Ejecutar Docker Compose
       - name: Run Docker Compose
