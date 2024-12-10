@@ -7,24 +7,27 @@ on:
   pull_request:
     paths:
       - 'Dockerized-web-deploy-kubernetes-with-github-actions/**'
+
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
     services:
       docker:
-        image: docker:19.03.12  
+        image: docker:19.03.12
         options: --privileged
     steps:
-    # Step 1: Checkout the code from the repository
+      # Step 1: Checkout the code from the repository
       - name: Checkout Directory
         uses: actions/checkout@v3
-    # Step 2: Configure sparse-checkout to fetch only the folder
+
+      # Step 2: Configure sparse-checkout to fetch only the folder
       - name: Configure sparse-checkout
         run: |
-          git sparse-checkout init --cone 
+          git sparse-checkout init --cone
           git sparse-checkout set Dockerized-web-deploy-kubernetes-with-github-actions
-    # Step 3: Setup the enviroment with docker-compose
+
+      # Step 3: Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -36,26 +39,33 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Listr current dir
+      # Step 4: List current directory
+      - name: List current dir
         run: |
           cd Dockerized-web-deploy-kubernetes-with-github-actions && ls
 
-      # Paso 3: Ejecutar Docker Compose
+      # Step 5: Run Docker Compose
       - name: Run Docker Compose
         run: |
-          cd Dockerized-web-deploy-kubernetes-with-github-actions && sudo apt-get install docker-compose -y && docker-compose -f docker-compose.yml up --build -d
+          sudo apt-get update && sudo apt-get install docker-compose-plugin -y
+          cd Dockerized-web-deploy-kubernetes-with-github-actions
+          docker-compose -f docker-compose.yml up --build -d
 
-      # Paso 4: Verificar que los contenedores estén en ejecución
+      # Step 6: Verify containers are running
       - name: Verify containers are running
         run: |
           docker ps
-      # (Opcional) Paso 5: Ejecutar pruebas docker-compose exec -T app pytest --version
-      - name: Run tests 
+
+      # Step 7: Run tests inside container
+      - name: Run tests
         run: |
-          cd Dockerized-web-deploy-kubernetes-with-github-actions && ls && docker-compose exec app /bin/sh && pytest --version && echo $PATH && pip install pytest && pytest --version && echo $PATH
-          
-      # (Opcional) Paso 6: Detener los contenedores después de las pruebas
+          cd Dockerized-web-deploy-kubernetes-with-github-actions
+          docker-compose exec -T app pip install pytest
+          docker-compose exec -T app pytest --version
+          docker-compose exec -T app pytest
+
+      # Step 8: Shutdown containers after tests
       - name: Shutdown containers
         run: |
+          cd Dockerized-web-deploy-kubernetes-with-github-actions
           docker-compose down
-
