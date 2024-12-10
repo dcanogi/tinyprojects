@@ -47,7 +47,7 @@ jobs:
       # Step 5: Run Docker Compose
       - name: Run Docker Compose
         run: |
-          sudo apt-get update && sudo apt-get install docker-compose-plugin -y
+          sudo apt-get update && sudo apt-get install docker-compose -y
           cd Dockerized-web-deploy-kubernetes-with-github-actions
           docker-compose -f docker-compose.yml up --build -d
 
