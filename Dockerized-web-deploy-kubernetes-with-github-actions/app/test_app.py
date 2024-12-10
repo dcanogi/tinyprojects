@@ -12,5 +12,5 @@ def client():
 def test_get_data(client):
     response = client.get('/api/data')  # Realiza una solicitud GET
     json_data = response.get_json()  # Obtén los datos JSON de la respuesta
-    assert response.status_code == 200  # Verifica que el código de estado sea 200
+    assert response.status_code == 200  # Verifica que el código de estado sea 200.
     assert json_data['message'] == 'Hello from Python!'  # Verifica el mensaje
