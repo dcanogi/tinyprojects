@@ -52,7 +52,7 @@ jobs:
       # (Opcional) Paso 5: Ejecutar pruebas
       - name: Run tests
         run: |
-          ls && docker-compose exec -T app pytest
+          cd Dockerized-web-deploy-kubernetes-with-github-actions && ls && docker-compose exec -T app pytest
           
       # (Opcional) Paso 6: Detener los contenedores después de las pruebas
       - name: Shutdown containers
