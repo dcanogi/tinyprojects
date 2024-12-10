@@ -1,6 +1,6 @@
 services:
   app:
-    image: python:3.11-slim
+    image: python:latest
     container_name: app
     ports:
       - "5000:5000"  # Expone el puerto 5000 del contenedor
