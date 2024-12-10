@@ -43,16 +43,16 @@ jobs:
       # Paso 3: Ejecutar Docker Compose
       - name: Run Docker Compose
         run: |
-          cd Dockerized-web-deploy-kubernetes-with-github-actions && sudo pip install pytest && sudo apt-get install docker-compose -y && docker-compose -f docker-compose.yml up --build -d
+          cd Dockerized-web-deploy-kubernetes-with-github-actions && sudo apt-get install docker-compose -y && docker-compose -f docker-compose.yml up --build -d
 
       # Paso 4: Verificar que los contenedores estén en ejecución
       - name: Verify containers are running
         run: |
           docker ps
-      # (Opcional) Paso 5: Ejecutar pruebas
-      - name: Run tests
+      # (Opcional) Paso 5: Ejecutar pruebas docker-compose exec -T app pytest --version
+      - name: Run tests 
         run: |
-          cd Dockerized-web-deploy-kubernetes-with-github-actions && ls && docker-compose exec -T app pytest --version
+          cd Dockerized-web-deploy-kubernetes-with-github-actions && ls && docker-compose exec app /bin/sh && pytest --version && echo $PATH && pip install pytest && pytest --version && echo $PATH
           
       # (Opcional) Paso 6: Detener los contenedores después de las pruebas
       - name: Shutdown containers
