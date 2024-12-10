@@ -55,9 +55,6 @@ jobs:
       - name: Verify containers are running
         run: |
           docker ps
-      - name: Run apt-get inside container
-        run: |
-          docker-compose exec -T app bash -c "apt-get update && apt-get install -y sudo"
 
       # Step 7: Run tests inside container
       - name: Run tests
