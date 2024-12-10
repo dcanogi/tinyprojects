@@ -3,7 +3,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Permitir solicitudes desde dominios cruzados (CORS)
+CORS(app)  # Permitir solicitudes desde dominios cruzados (CORS).
 
 # Endpoint para obtener datos
 @app.route('/api/data', methods=['GET'])
