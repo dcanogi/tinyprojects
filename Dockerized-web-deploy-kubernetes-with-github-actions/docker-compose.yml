@@ -20,7 +20,7 @@ services:
     volumes:
       - ./app/nginx.conf:/etc/nginx/nginx.conf  # Asegúrate de que tu configuración de nginx esté bien
     depends_on:
-      - app  # Asegura que el contenedor `app` esté levantado primero
+      - app  # Asegura que el contenedor `app` esté levantado primero.
     networks:
       - app-network
 
