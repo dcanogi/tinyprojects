@@ -52,7 +52,7 @@ jobs:
       # (Opcional) Paso 5: Ejecutar pruebas
       - name: Run tests
         run: |
-          docker-compose exec -T app pytest  # Asumiendo que tienes una app con pruebas dentro del contenedor
+          docker-compose exec -T app pytest
           
       # (Opcional) Paso 6: Detener los contenedores después de las pruebas
       - name: Shutdown containers
