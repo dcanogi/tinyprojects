@@ -60,10 +60,7 @@ jobs:
       - name: Run tests
         run: |
           cd Dockerized-web-deploy-kubernetes-with-github-actions
-          docker-compose exec -T app sudo apt-get update && sudo apt-get install -y ca-certificates
-          docker-compose exec -T app sudo pip install flask flask-cors pytest
           docker-compose exec -T app pytest --version 
-          docker-compose exec -T app pytest 
 
       # Step 8: Shutdown containers after tests
       - name: Shutdown containers
