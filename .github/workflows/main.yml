@@ -36,6 +36,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: Listr current dir
+        run: |
+          ls
+
       # Paso 3: Ejecutar Docker Compose
       - name: Run Docker Compose
         run: |
