@@ -2,7 +2,7 @@ import unittest
 from app import app
 
 class AppTestCase(unittest.TestCase):
-    # El cliente de prueba de Flask
+    # El cliente de prueba de Flask.
     def setUp(self):
         self.app = app.test_client()
 
